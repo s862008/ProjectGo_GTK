@@ -1,13 +1,26 @@
 package main
 
 import (
+	"encoding/csv"
 	"fmt"
 	"log"
+	"os"
 
 	"github.com/gotk3/gotk3/gtk"
 )
 
+type Config struct {
+	baseName
+	basePath
+	basePSW
+	baseUser
+}
+
 func main() {
+	// Читаем натройки из файла
+	var cfg Config
+	getConfig(cfg)
+
 	// Инициализируем GTK.
 	gtk.Init(nil)
 	fmt.Println("Запуск")
@@ -43,6 +56,28 @@ func main() {
 	// Выполняем главный цикл GTK (для отрисовки). Он остановится когда
 	// выполнится gtk.MainQuit()
 	gtk.Main()
+}
+func getConfig(cfg Config) {
+	file, err := os.Open("config.csv")
+	if err != nil {
+		panic(err)
+	}
+	defer file.Close()
+
+	reader := csv.NewReader(file)
+	reader.FieldsPerRecord = 3
+	reader.Comment = '#'
+
+	for {
+		record, e := reader.Read()
+		if e != nil {
+
+			fmt.Println(e)
+			break
+		}
+
+		fmt.Println(record)
+	}
 }
 
 func actions(bld *gtk.Builder) {
