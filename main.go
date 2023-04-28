@@ -10,10 +10,10 @@ import (
 )
 
 type Config struct {
-	baseName
-	basePath
-	basePSW
-	baseUser
+	baseName string
+	basePath string
+	basePSW  string
+	baseUser string
 }
 
 func main() {
@@ -65,7 +65,7 @@ func getConfig(cfg Config) {
 	defer file.Close()
 
 	reader := csv.NewReader(file)
-	reader.FieldsPerRecord = 3
+	//reader.FieldsPerRecord = 3
 	reader.Comment = '#'
 
 	for {
