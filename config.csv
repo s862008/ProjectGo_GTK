@@ -1,2 +1,4 @@
-baseName
-basePath
+baseName;TestBase
+basePath;localhost
+basePSW;masterkey
+baseUser;SYSDBA

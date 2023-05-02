@@ -19,8 +19,8 @@ type Config struct {
 func main() {
 	// Читаем натройки из файла
 	var cfg Config
-	getConfig(cfg)
-
+	getConfig(&cfg)
+	fmt.Println(cfg)
 	// Инициализируем GTK.
 	gtk.Init(nil)
 	fmt.Println("Запуск")
@@ -57,7 +57,7 @@ func main() {
 	// выполнится gtk.MainQuit()
 	gtk.Main()
 }
-func getConfig(cfg Config) {
+func getConfig(cfg *Config) {
 	file, err := os.Open("config.csv")
 	if err != nil {
 		panic(err)
@@ -67,16 +67,23 @@ func getConfig(cfg Config) {
 	reader := csv.NewReader(file)
 	//reader.FieldsPerRecord = 3
 	reader.Comment = '#'
-
+	reader.Comma = ';'
 	for {
 		record, e := reader.Read()
 		if e != nil {
-
-			fmt.Println(e)
+			//fmt.Println(e) //EOF
 			break
 		}
-
-		fmt.Println(record)
+		switch record[0] {
+		case "baseName":
+			cfg.baseName = record[1]
+		case "basePath":
+			cfg.basePath = record[1]
+		case "basePSW":
+			cfg.basePSW = record[1]
+		case "baseUser":
+			cfg.baseUser = record[1]
+		}
 	}
 }
 
