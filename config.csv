@@ -1,5 +1,5 @@
 baseName;TestBase
-basePath;localhost
+basePath;localhost/E:/bdtest/TESTBASE.FDB
 basePSW;masterkey
 baseUser;SYSDBA
 # testSeting;

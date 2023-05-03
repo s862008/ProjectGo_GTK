@@ -18,10 +18,11 @@ type Config struct {
 	basePSW  string
 	baseUser string
 }
+var cfg Config
 
 func main() {
 	// Читаем натройки из файла
-	var cfg Config
+	
 	getConfig(&cfg)
 	fmt.Println(cfg)
 
@@ -103,7 +104,7 @@ func actions(bld *gtk.Builder) {
 	button1.Connect("clicked", func() {
 
 		var n int
-		conn, _ := sql.Open("firebirdsql", "SYSDBA:masterkey@localhost")
+		conn, _ := sql.Open("firebirdsql", cfg.baseUser+":"+cfg.basePSW+"@"+cfg.basePath)
 		defer conn.Close()
 		conn.QueryRow("SELECT Count(*) FROM rdb$relations").Scan(&n)
 		fmt.Println("Relations count=", n)
