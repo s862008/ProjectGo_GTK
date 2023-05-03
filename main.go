@@ -1,12 +1,15 @@
 package main
 
 import (
+	"database/sql"
 	"encoding/csv"
 	"fmt"
 	"log"
 	"os"
+	"strconv"
 
 	"github.com/gotk3/gotk3/gtk"
+	_ "github.com/nakagami/firebirdsql"
 )
 
 type Config struct {
@@ -21,6 +24,7 @@ func main() {
 	var cfg Config
 	getConfig(&cfg)
 	fmt.Println(cfg)
+
 	// Инициализируем GTK.
 	gtk.Init(nil)
 	fmt.Println("Запуск")
@@ -97,9 +101,15 @@ func actions(bld *gtk.Builder) {
 	button2 := obj.(*gtk.Button)
 
 	button1.Connect("clicked", func() {
-		text := "ТЕСТ ТЕСТ"
+
+		var n int
+		conn, _ := sql.Open("firebirdsql", "SYSDBA:masterkey@localhost")
+		defer conn.Close()
+		conn.QueryRow("SELECT Count(*) FROM rdb$relations").Scan(&n)
+		fmt.Println("Relations count=", n)
+
 		t_buff, _ := textview1.GetBuffer()
-		t_buff.SetText(text)
+		t_buff.SetText(strconv.Itoa(n))
 
 	})
 
