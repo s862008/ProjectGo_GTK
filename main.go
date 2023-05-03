@@ -99,10 +99,10 @@ func actions(bld *gtk.Builder) {
 	textview1 := obj.(*gtk.TextView)
 	obj, _ = bld.GetObject("button1")
 	button1 := obj.(*gtk.Button)
-	button1.SetName("Получить данные")
+	button1.SetLabel("Получить данные")
 	obj, _ = bld.GetObject("button2")
 	button2 := obj.(*gtk.Button)
-	button2.SetName("Выход")
+	button2.SetLabel("Выход")
 
 	button1.Connect("clicked", func() {
 
