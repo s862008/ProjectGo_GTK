@@ -18,11 +18,12 @@ type Config struct {
 	basePSW  string
 	baseUser string
 }
+
 var cfg Config
 
 func main() {
 	// Читаем натройки из файла
-	
+
 	getConfig(&cfg)
 	fmt.Println(cfg)
 
@@ -98,8 +99,10 @@ func actions(bld *gtk.Builder) {
 	textview1 := obj.(*gtk.TextView)
 	obj, _ = bld.GetObject("button1")
 	button1 := obj.(*gtk.Button)
+	button1.SetName("Получить данные")
 	obj, _ = bld.GetObject("button2")
 	button2 := obj.(*gtk.Button)
+	button2.SetName("Выход")
 
 	button1.Connect("clicked", func() {
 
@@ -115,11 +118,8 @@ func actions(bld *gtk.Builder) {
 	})
 
 	button2.Connect("clicked", func() {
-		text := "ТЕСТ2 ТЕСТ2"
-		t_buff, _ := textview1.GetBuffer()
-		start, end := t_buff.GetBounds()
-		textold, _ := t_buff.GetText(start, end, true)
-		t_buff.SetText(textold + text + "\n")
+
+		gtk.MainQuit()
 
 	})
 
