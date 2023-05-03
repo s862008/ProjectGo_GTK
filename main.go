@@ -25,19 +25,19 @@ func main() {
 	gtk.Init(nil)
 	fmt.Println("Запуск")
 	// Создаём билдер
-	b, err := gtk.BuilderNew()
+	bld, err := gtk.BuilderNew()
 	if err != nil {
 		log.Fatal("Ошибка:", err)
 	}
 
 	// Загружаем в билдер окно из файла Glade
-	err = b.AddFromFile("mainForm.glade")
+	err = bld.AddFromFile("mainForm.glade")
 	if err != nil {
 		log.Fatal("Ошибка:", err)
 	}
 
 	// Получаем объект главного окна по ID
-	obj, err := b.GetObject("dialog1")
+	obj, err := bld.GetObject("dialog1")
 	if err != nil {
 		log.Fatal("Ошибка:", err)
 	}
@@ -49,7 +49,7 @@ func main() {
 	dlg.Connect("destroy", func() {
 		gtk.MainQuit()
 	})
-	actions(b)
+	actions(bld)
 	// Отображаем все виджеты в окне
 	dlg.ShowAll()
 
@@ -65,7 +65,7 @@ func getConfig(cfg *Config) {
 	defer file.Close()
 
 	reader := csv.NewReader(file)
-	//reader.FieldsPerRecord = 3
+	reader.FieldsPerRecord = 3
 	reader.Comment = '#'
 	reader.Comma = ';'
 	for {
