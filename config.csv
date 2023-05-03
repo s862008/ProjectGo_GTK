@@ -2,3 +2,5 @@ baseName;TestBase
 basePath;localhost
 basePSW;masterkey
 baseUser;SYSDBA
+# testSeting;
+param1

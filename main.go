@@ -65,15 +65,16 @@ func getConfig(cfg *Config) {
 	defer file.Close()
 
 	reader := csv.NewReader(file)
-	reader.FieldsPerRecord = 3
+	reader.FieldsPerRecord = 2
 	reader.Comment = '#'
 	reader.Comma = ';'
 	for {
 		record, e := reader.Read()
 		if e != nil {
-			//fmt.Println(e) //EOF
+			fmt.Println(e) //EOF
 			break
 		}
+		fmt.Println(record)
 		switch record[0] {
 		case "baseName":
 			cfg.baseName = record[1]
