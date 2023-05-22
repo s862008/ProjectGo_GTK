@@ -8,6 +8,7 @@ import (
 	"os"
 	"strconv"
 
+	"github.com/gotk3/gotk3/glib"
 	"github.com/gotk3/gotk3/gtk"
 	_ "github.com/nakagami/firebirdsql"
 )
@@ -55,6 +56,26 @@ func main() {
 	dlg.Connect("destroy", func() {
 		gtk.MainQuit()
 	})
+	//objlst, _ := bld.GetObject("liststore1")
+	//	liststore1 := objlst.(*gtk.ListStore)
+
+	objtree, _ := bld.GetObject("treeview1")
+	treeview1 := objtree.(*gtk.TreeView)
+	{
+		renderer, _ := gtk.CellRendererTextNew()
+		column1, _ := gtk.TreeViewColumnNewWithAttribute("ID", renderer, "text", 0)
+		column2, _ := gtk.TreeViewColumnNewWithAttribute("TASK", renderer, "text", 1)
+		treeview1.AppendColumn(column1)
+		treeview1.AppendColumn(column2)
+	}
+
+	liststore1, _ := gtk.ListStoreNew(glib.TYPE_STRING, glib.TYPE_STRING)
+	liststore1.SetValue(liststore1.Append(), 0, "wwwww")
+	liststore1.SetValue(liststore1.Append(), 1, "ww234w")
+	liststore1.SetValue(liststore1.Append(), 0, "5666")
+
+	treeview1.SetModel(liststore1)
+
 	actions(bld)
 	// Отображаем все виджеты в окне
 	dlg.ShowAll()

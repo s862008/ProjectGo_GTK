@@ -7,6 +7,14 @@
     <property name="step_increment">1</property>
     <property name="page_increment">10</property>
   </object>
+  <object class="GtkListStore" id="liststore1">
+    <columns>
+      <!-- column-name ид -->
+      <column type="&lt; определите новый столбец &gt;"/>
+      <!-- column-name задачи -->
+      <column type="&lt; определите новый столбец &gt;"/>
+    </columns>
+  </object>
   <object class="GtkDialog" id="dialog1">
     <property name="can_focus">False</property>
     <property name="border_width">5</property>
@@ -55,10 +63,10 @@
           </packing>
         </child>
         <child>
-          <object class="GtkLayout" id="layout1">
+          <object class="GtkTreeView" id="treeview1">
             <property name="visible">True</property>
-            <property name="can_focus">False</property>
-            <property name="vadjustment">adjustment1</property>
+            <property name="can_focus">True</property>
+            <property name="model">liststore1</property>
           </object>
           <packing>
             <property name="expand">True</property>
