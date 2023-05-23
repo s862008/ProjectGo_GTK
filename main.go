@@ -69,12 +69,42 @@ func main() {
 		treeview1.AppendColumn(column2)
 	}
 
-	liststore1, _ := gtk.ListStoreNew(glib.TYPE_STRING, glib.TYPE_STRING)
-	liststore1.SetValue(liststore1.Append(), 0, "wwwww")
-	liststore1.SetValue(liststore1.Append(), 1, "ww234w")
-	liststore1.SetValue(liststore1.Append(), 0, "5666")
+	liststore1, _ := gtk.ListStoreNew(glib.TYPE_STRING, glib.TYPE_STRING, glib.TYPE_BOOLEAN)
+	//liststore1.SetValue(liststore1.Append(), 0, "wwwww")
+	//liststore1.SetValue(liststore1.Append(), 1, "ww234w")
+
+	// Добавляем данные в список.
+	data := [][]interface{}{
+		{"Элемент 1", "a", true},
+		{"Элемент 2", "q", false},
+		{"Элемент 3", "test", true},
+	}
+
+	for _, val := range data {
+		iter := liststore1.Append()
+		liststore1.SetValue(iter, 0, val[0])
+		liststore1.SetValue(iter, 1, val[1])
+		liststore1.SetValue(iter, 2, val[2])
+	}
+
+	// Создаем CellRendererToggle для второго столбца (чекбокса).
+	rendererToggle, _ := gtk.CellRendererToggleNew()
+	col2, _ := gtk.TreeViewColumnNewWithAttribute("Столбец 3", rendererToggle, "active", 2)
+
+	rendererToggle.Connect("toggled", func(renderer *gtk.CellRendererToggle, path *gtk.TreePath) {
+		// Обработчик события "toggled" для CellRendererToggle при отметке/снятии отметки на чекбоксе.
+		iter, _ := liststore1.GetIter(path)
+		act, _ := liststore1.GetValue(iter, 2)
+		fmt.Println(act.IsValue())
+		// if act.IsValue() {
+		// 	liststore1.SetValue(iter, 1, false)
+		// } else {
+		// 	liststore1.SetValue(iter, 1, true)
+		// }
+	})
 
 	treeview1.SetModel(liststore1)
+	treeview1.AppendColumn(col2)
 
 	actions(bld)
 	// Отображаем все виджеты в окне
