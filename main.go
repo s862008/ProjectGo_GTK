@@ -91,16 +91,18 @@ func main() {
 	rendererToggle, _ := gtk.CellRendererToggleNew()
 	col2, _ := gtk.TreeViewColumnNewWithAttribute("Столбец 3", rendererToggle, "active", 2)
 
-	rendererToggle.Connect("toggled", func(renderer *gtk.CellRendererToggle, path *gtk.TreePath) {
+	rendererToggle.Connect("toggled", func(renderer *gtk.CellRendererToggle, row string) {
 		// Обработчик события "toggled" для CellRendererToggle при отметке/снятии отметки на чекбоксе.
-		iter, _ := liststore1.GetIter(path)
-		act, _ := liststore1.GetValue(iter, 2)
-		fmt.Println(act.IsValue())
-		// if act.IsValue() {
-		// 	liststore1.SetValue(iter, 1, false)
-		// } else {
-		// 	liststore1.SetValue(iter, 1, true)
-		// }
+
+		iter, _ := liststore1.GetIterFromString(row)
+		value, _ := liststore1.GetValue(iter, 2)
+		active, _ := value.GoValue()
+
+		if active == true {
+			liststore1.SetValue(iter, 2, false)
+		} else {
+			liststore1.SetValue(iter, 2, true)
+		}
 	})
 
 	treeview1.SetModel(liststore1)
