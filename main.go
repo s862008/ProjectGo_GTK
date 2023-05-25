@@ -93,10 +93,9 @@ func main() {
 
 	rendererToggle.Connect("toggled", func(renderer *gtk.CellRendererToggle, row string) {
 		// Обработчик события "toggled" для CellRendererToggle при отметке/снятии отметки на чекбоксе.
-
-		iter, _ := liststore1.GetIterFromString(row)
-		value, _ := liststore1.GetValue(iter, 2)
-		active, _ := value.GoValue()
+		
+		iter := mute_err(liststore1.GetIterFromString(row))
+		active, _ := mute_err(liststore1.GetValue(iter, 2)).GoValue()
 
 		if active == true {
 			liststore1.SetValue(iter, 2, false)
@@ -176,4 +175,10 @@ func actions(bld *gtk.Builder) {
 
 	})
 
+}
+func mute_err[T any](v T, err error) T {
+	if err != nil {
+		panic(err)
+	}
+	return v
 }
