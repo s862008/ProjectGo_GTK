@@ -1,3 +1,5 @@
+/* Простой TO DO list */
+/* Список хранится в базе Firebird*/
 package main
 
 import (
@@ -93,7 +95,7 @@ func main() {
 
 	rendererToggle.Connect("toggled", func(renderer *gtk.CellRendererToggle, row string) {
 		// Обработчик события "toggled" для CellRendererToggle при отметке/снятии отметки на чекбоксе.
-		
+
 		iter := mute_err(liststore1.GetIterFromString(row))
 		active, _ := mute_err(liststore1.GetValue(iter, 2)).GoValue()
 
